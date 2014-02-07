@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>Doc - Perceptron</title>
+		<link rel="stylesheet" href="css/bootstrap/bootstrap.css">		
+	</head>
+	<body>
+	<div class="container container-fluid">		
+		<div class="row-fluid">		
+			<div class="span12">
+				<div class="row-fluid">			
+					<pre>
+Etienne Puissant
+Félix Wattez
+Romain Dauby
+
+<h1>Le perceptron</h1>
+
+<h2>Notre projet</h2>
+<p>Il suffit de lancer la page <a href="index.html">index.html</a> pour observer et comprendre le fonctionnement de notre projet.
+Au niveau du code, nous utilisons une grille à 3 dimensions. 2 dimensions pour représenter l’axe et x et l’axe des y de la grille et la 3ème dimension représente un chiffre (de 1 à 9). Chaque valeur dans cette grille correspond au poids du chiffre de la 3ème dimension pour un pixel.
+</p>
+<h3>Arborescence des fichiers</h3>
+Dans le dossier "js/my" se trouvent les fichiers javascript que nous avons codés.
+Le fichier "canvas.js" contient les fonctions fournies par le prof pour dessiner sur le canvas html.
+Le fichier "chart.js" contient les options et la fonction pour générer le graphique du poids de chaque chiffre.
+Le fichier "option.js" contient les fonctions pour modifier les caractéristiques de notre perceptron, tel le seuil d'apprentissage, la taille de la grille et utiliser un halo autour des pixels allumés (amélioration).
+Le fichier "perceptron.js" contient les fonctions "learn" et "process" qui sont celles que nous devions implémenter. Il contient également des fonctions satellites permettant d'améliorer la lisibilité du code.
+
+
+<h2>Améliorations possibles</h2>
+<h3>I - Effectuer un changement de repère</h3>
+En effet, que la grille fasse 10 ou 1000 pixels, chaque chiffre saisi possède un contour rectangulaire. Il faut réduire la grille à ce contour et enregistrer la forme saisie.
+Ainsi, si la personne dessine un 1 en haut à gauche ou en bas à droite de la grille, le 1 sera reconnu.
+<h3>II - Enregistrer un halo</h3>
+Cette amélioration est présente dans le code de notre projet. Pour enregistrer la forme d’un chiffre, nous pourrions ajouter un poids faible aux pixels proches de ceux alumés. Ainsi, si la personne dessine le même chiffre avec quelques pixels (de poids faible) d’écarts, celui-ci sera reconnu.
+<h3>III - Etablir une suite logique</h3>
+On pourrait enregistrer un chiffre en calculant une suite des pixels alumés à partir d’un pixel bien précis (par exemple le pixel le plus en haut à gauche). Ainsi, on établit une suite logique des fils allumés (pixels adjacents) en leur attribuant un poids différent à chaque fois en fonction de leur position par rapport au pixel mère.
+<h3>IV - Calculer l’opposé</h3>
+Pour cela il faut enregistrer les pixels éteints plutôt que ceux allumés. Méthode peu fiable.
+                    </pre>
+					<a href="index.html">
+						<button class="btn btn-large btn-info" type="button">Retour au perceptron</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+    </body>
+</html>

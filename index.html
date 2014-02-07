@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>Perceptron</title>
+		<link rel="stylesheet" href="css/bootstrap/bootstrap.css">		
+	</head>
+	<body>
+		<div style="position: absolute">
+			<h1>Le perceptron</h1>
+			<canvas id="canvas" width="300" height="400">
+				alternate content
+			</canvas>
+		</div>
+	<div class="container container-fluid">		
+		<div class="row-fluid">		
+			<div class="span4 offset3">
+				<div class="row-fluid">			
+					<h4>Projet IA - Développeurs</h4>
+					<p>
+						<ul>
+							<li>Etienne Puissant</li>
+							<li>Félix Wattez</li>
+							<li>Romain Dauby</li>
+						</ul>
+					</p>
+					<a href="documentation.html">
+						<button class="btn btn-large btn-info" type="button">Lire la documentation</button>
+					</a>
+					<hr>
+				</div>
+				<div class="row-fluid">			
+					<h4>Options modifiables</h4>
+					<div class="input-append">
+						<input class="span2" id="pixelSize" type="text" value="50">
+						<button class="btn" type="button" onclick="changePixelSize()">Taille pixel</button>
+					</div>
+					<div class="input-append">
+						<input class="span2" id="seuil" type="text" value="4">						
+						<button class="btn" type="button" onclick="changeSeuil()">Changer le seuil</button>
+					</div>
+					<label class="checkbox">
+						<input type="checkbox" id="halo" onclick="changeHaloStatus()"> Halo
+					</label>
+					<hr>
+				</div>
+				<div class="row-fluid">
+					<h4>Apprentissage</h4>
+					<button class="btn btn-warning" type="button" onclick="resetCanvas()">Reset canvas</button>
+					<br><br>
+					<div class="input-append">
+						<input id="inputNumber" type="text">
+						<button class="btn" type="button" onclick="learnClicked()">Learn</button>
+					</div>
+					<div class="input-append">
+						<input id="outputNumber" type="text">
+						<button class="btn" type="button" onclick="processClicked()">Process</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span4 offset3">
+				<h4>Taux d'activation de chaque chiffre</h4>
+				<canvas id="myChart" width="400" height="400"></canvas>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery/jquery.js"></script>
+	<script src="js/chart/Chart.min.js"></script>
+	<script src="js/my/chart.js"></script>
+	<script>
+		var PIXEL_SIZE = 50;
+		var NEURONE_SEUIL = 4;
+		var GRID_WIDTH = 0;
+		var GRID_HEIGHT = 0; 
+		var OUTPUT_COUNT = 10;
+		var HALO = false;
+
+		var pixels = [];
+		var grille = [];
+		var sorties = [];		
+
+		var mousePressed = false;
+		var mousePixelIndex = -1;
+		
+		window.onload = init;
+		
+		function log(str){console.log(str);}
+		
+		function init() {
+			var canvas = document.getElementById("canvas");
+			GRID_WIDTH = Math.floor(canvas.width/PIXEL_SIZE);	
+			GRID_HEIGHT = Math.floor(canvas.height/PIXEL_SIZE);	
+
+			initGrille();
+			resetCanvas();
+
+			canvas.addEventListener("click", function(e) {
+				var mousePoint = mouseCanvasPosition(e);
+				togglePixelAtPoint(mousePoint);
+				drawPixels();	
+			});
+
+			canvas.addEventListener("mousedown", function(e) {
+				mousePressed = true;
+			}, false);
+			canvas.addEventListener("mouseup", function(e) {
+				mousePressed = false;
+			}, false);		
+
+			canvas.addEventListener("mousemove", function(e) {
+				if(mousePressed) {
+					var mousePoint = mouseCanvasPosition(e);
+					var pixelIndex = pixelIndexAtPoint(e);
+					if(pixelIndex != mousePixelIndex) {
+						setPixelValueAtPoint(mousePoint, true);
+						drawPixels();	
+						mousePixelIndex = pixelIndex;												
+					}
+				}
+			});
+		}
+		
+		function initGrille(){
+			for(var i  = 0; i < GRID_WIDTH ; i++){
+				grille[i] = [];
+				for(var j  = 0; j < GRID_HEIGHT ; j++){
+					grille[i][j] = [];
+					for(var k = 0; k < OUTPUT_COUNT ; k++){
+						grille[i][j][k] = 0;
+					}
+				}
+			}	
+		}
+
+		function learnClicked() {
+			var learnedNumber = parseInt($("#inputNumber").val());
+			learn(learnedNumber);
+			processClicked();
+		}
+
+		function processClicked() {
+			processedNumbers = [];
+
+			processedNumbers = process();
+
+			showProcessedNumbers(processedNumbers);
+		}
+
+		function showProcessedNumbers(processedNumbers) {
+			var result = "";
+			for(var i = 0; i < processedNumbers.length; i++) {
+				result += processedNumbers[i].toString() + ",";
+			}
+			if(result.length > 0) result = result.substring(0, result.length-1);
+			$("#outputNumber").val(result);
+		}
+	</script>
+	<script src="js/my/perceptron.js"></script>
+	<script src="js/my/option.js"></script>
+	<script src="js/my/canvas.js"></script>	
+</body>
+</html>
